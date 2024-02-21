@@ -1,6 +1,6 @@
 # React Native Forms
 
-A form builder for react-native with 15 different types of inputs.
+A form builder for react-native with 15 different types of inputs. It was desined to be relatively modular to allow for dynamic form rendering.
 
 ### Dependencies
 The following is a list of dependencies that must be installed before React Native Forms will work. Each item in the list links to the project's repository.
@@ -90,7 +90,7 @@ The `<Input />` element is the main abstraction for an input field on a form. Th
 
 ## Example
 
-Here is an example that uses each input type, some styles and props, requires some fields, and has a dependent question.
+Here is an example that uses each input type, some styles and props, requires some fields, and has a dependent question. It also has a Form title and section headers.
 
 ```
 function App() {
@@ -103,7 +103,7 @@ function App() {
          console.log(values);
          Alert.alert("Form Submitted", "Form has been submitted.");
       }}
-      styles={{backgroundColor: "grey", minHeight: "100%"}}
+      styles={{backgroundColor: "grey", minHeight: "100%", paddingLeft: 5, paddingRight: 5}}
       submitBtnText="Submit Form"
       submitBtnStyle={{backgroundColor: "#2196F3", padding: 10, margin: 10, borderRadius: 5, width: "50%", alignSelf: "center"}}
       submitBtnTextStyle={{color: "white", textAlign: "center"}}
