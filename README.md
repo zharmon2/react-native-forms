@@ -14,6 +14,7 @@ The following is a list of dependencies that must be installed before React Nati
 - [react-native-fs](https://github.com/itinance/react-native-fs)
 - [react-native-audio-recorder-player](https://github.com/hyochan/react-native-audio-recorder-player)
 - [react-native-phone-input](https://github.com/rili-live/react-native-phone-input)
+- [react-native-dropdown-select-list](https://github.com/danish1658/react-native-dropdown-select-list)
 
 ## Usage
 
