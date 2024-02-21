@@ -79,7 +79,7 @@ function App() {
         console.log(values);
         Alert.alert("Form Submitted", "Form has been submitted.");
       }}
-      styles={{backgroundColor: "grey", minHeight: "100%", paddingLeft: 5, paddingRight: 5}}
+      styles={{backgroundColor: "#f2f2f2", minHeight: "100%", paddingLeft: 5, paddingRight: 5}}
       submitBtnText="Submit Form"
       submitBtnStyle={{backgroundColor: "#2196F3", padding: 10, margin: 10, borderRadius: 5, width: "50%", alignSelf: "center"}}
       submitBtnTextStyle={{color: "white", textAlign: "center"}}
@@ -97,9 +97,9 @@ function App() {
       key={key}
     >
 
-      <Text style={{textAlign: "center", fontSize: 20, fontWeight: "bold", margin: 10}}>Reservation Form</Text>
+      <Text style={{textAlign: "center", fontSize: 20, fontWeight: "bold", margin: 10, color: "black"}}>Reservation Form</Text>
 
-      <Text style={{textAlign: "center", fontSize: 15, fontWeight: "bold", margin: 10}}>General Information</Text>
+      <Text style={{textAlign: "center", fontSize: 15, fontWeight: "bold", margin: 10, color: "black"}}>General Information</Text>
 
       <Input 
         id={0}
@@ -109,10 +109,10 @@ function App() {
         maxLength={15} 
 
         label="First Name"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1, textAlign: "left", padding: 5}}
         labelPosition="left"
 
-        containerStyles={{alignItems: "center", justifyContent: "center"}}
+        containerStyles={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}
 
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
         onEdit={(value) => {setValues({...values, 0: value})}}
@@ -122,7 +122,7 @@ function App() {
       <Input id={1} type="text" placeholder="Enter..." 
         
         label="Last Name"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1, textAlign: "left", padding: 5}}
         labelPosition="left"
 
         containerStyles={{alignItems: "center", justifyContent: "center"}}
@@ -140,7 +140,7 @@ function App() {
         required={true} 
 
         label="Email"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1, textAlign: "left", padding: 5}}
         labelPosition="left"
 
         containerStyles={{alignItems: "center", justifyContent: "center"}}
@@ -157,7 +157,7 @@ function App() {
         required={true}
 
         label="Password"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         labelPosition="left"
 
         containerStyles={{alignItems: "center", justifyContent: "center"}}
@@ -177,7 +177,7 @@ function App() {
         step={1}
 
         label="Number in party."
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         labelPosition="left"
 
         containerStyles={{alignItems: "center", justifyContent: "center"}}
@@ -194,7 +194,7 @@ function App() {
         required={false}
 
         label="Date of Birth"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         labelPosition="left"
 
         value={values[5]}
@@ -211,7 +211,7 @@ function App() {
         required={true}
         value={values[6]}
         label="Reservation Date and Time"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         labelPosition="left"
 
         containerStyles={{alignItems: "center", justifyContent: "center"}}
@@ -220,7 +220,7 @@ function App() {
         onEdit={(value) => {setValues({...values, 6: value.getTime()})}}
       />
 
-      <Text style={{textAlign: "center", fontSize: 15, fontWeight: "bold", margin: 10, marginTop:20}}>Reminders Sign Up</Text>
+      <Text style={{textAlign: "center", fontSize: 15, fontWeight: "bold", margin: 10, marginTop:20, color: "black"}}>Reminders Sign Up</Text>
 
       <Input
         id={7}
@@ -229,7 +229,7 @@ function App() {
         required={false}
 
         label="Would you like to recieve text reminders?"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         labelPosition="left"
 
         containerStyles={{alignItems: "center", justifyContent: "center"}}
@@ -251,7 +251,7 @@ function App() {
         options={["option 1", "option 2", "option 3"]}
 
         label="Select an option"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         labelPosition="left"
 
         containerStyles={{alignItems: "center", justifyContent: "center"}}
@@ -275,9 +275,9 @@ function App() {
         onEdit={(value) => {setValues({...values, 9: value})}}
         label="Select a steak"
         labelPosition="left"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         containerStyles={{alignItems: "center", justifyContent: "center"}}
-        pickerStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white", height: 30}}
+        inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, margin: 5, backgroundColor: "white", height: 55}}
         required={false}
         value = {values[9]}
       />
@@ -290,7 +290,7 @@ function App() {
         onEdit={(value) => {setValues({...values, 10: value})}}
         label="Select a temperature"
         labelPosition="left"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         containerStyles={{alignItems: "center", justifyContent: "center"}}
         required={false}
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white", gap: 5}}
@@ -308,7 +308,7 @@ function App() {
         required={false}
         labelPosition="left"
         label="Upload your reseravation confirmation."
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         containerStyles={{alignItems: "center", justifyContent: "center"}}
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
       />
@@ -322,7 +322,7 @@ function App() {
         required={false}
         labelPosition="left"
         label="Upload a photo of your ID."
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         containerStyles={{alignItems: "center", justifyContent: "center"}}
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
       />
@@ -336,12 +336,12 @@ function App() {
         required={false}
         labelPosition="left"
         label="Upload a video of your ID."
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         containerStyles={{alignItems: "center", justifyContent: "center"}}
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
       />
 
-      <Text style={{textAlign: "center", fontSize: 15, fontWeight: "bold", margin: 10, marginTop:20}}>Confirmation</Text>
+      <Text style={{textAlign: "center", fontSize: 15, fontWeight: "bold", margin: 10, marginTop:20, color: "black"}}>Confirmation</Text>
 
       <Input
         id={14}
@@ -352,7 +352,7 @@ function App() {
         required={false}
         labelPosition="left"
         label="Record youself saying the following phrase: 'I <insert name> am requesting a reservation at <insert restaurant> on <insert date> at <insert time>.'"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         containerStyles={{alignItems: "center", justifyContent: "center"}}
         inputStyles={{flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', backgroundColor: "white", borderWidth: 1, borderColor: "black", borderRadius: 5, padding: 5, margin: 5}}
       />
@@ -365,6 +365,7 @@ function App() {
         maxLength={300}
         labelPosition="none"
         onEdit={(value) => {setValues({...values, 15: value})}}
+        containerStyles={{marginTop: 10, marginBottom: 10}}
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white", maxHeight: 200}}
         value={values[15]}
       />
@@ -374,7 +375,7 @@ function App() {
         type="dropdown"
         placeholder="Select..."
         label="What state is the restaurant located in?"
-        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelStyles={{color: "black", flex: 1,  textAlign: "left", padding: 5}}
         labelPosition="left"
         required={true}
         options={[

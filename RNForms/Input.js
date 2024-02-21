@@ -1,7 +1,7 @@
 import React, {useRef} from "react";
 
 import { 
-    TextInput, View, Text, Keyboard, TouchableOpacity
+    TextInput, View, Text, Keyboard, TouchableOpacity, Platform
  } from "react-native";
 
 import DatePicker from 'react-native-date-picker'
@@ -104,6 +104,7 @@ class Input extends React.Component {
                         } :
                         this.props.disabled?
                         {
+                            ...this.props.containerStyles,
                             display: "flex",
                             flexDirection: "row",
                             opacity: 0.7,
@@ -854,29 +855,44 @@ class Input extends React.Component {
         }
         else if(this.props.type === "select"){
             return (
-                <Picker
-                    selectedValue={this.state.selectedValue}
+                <View
                     style={
-                        this.props.pickerStyles?
-                        this.props.pickerStyles:
+                        this.props.inputStyles?
+                        {
+                            ...this.props.inputStyles,
+                            padding: 0,
+                            overflow: "hidden",
+                            minHeight: Platform.OS === "ios"?"auto":55,
+                        }:
                         {
                             height: 50,
                             flex: 1,
                         }
                     }
-                    onValueChange={(itemValue, itemIndex) => {
-                        this.setState({selectedValue: itemValue});
-                        this.props.onEdit?this.props.onEdit(itemValue):null;
-                        this.setState({hasError: false, hasRequiredError: false});
-                        this.setParentFormHasErrors(false);
-                    }}
                 >
-                    {this.props.options.map((option) => {
-                        return (
-                            <Picker.Item label={option["label"]} value={option["value"]} key={option["label"]} />
-                        );
-                    })}
-                </Picker>
+                    <Picker
+                        selectedValue={this.state.selectedValue}
+                        style={{
+                            height: "100%"
+                        }}
+            
+                        prompt="Select an option"
+                        onValueChange={(itemValue, itemIndex) => {
+                            this.setState({selectedValue: itemValue});
+                            this.props.onEdit?this.props.onEdit(itemValue):null;
+                            this.setState({hasError: false, hasRequiredError: false});
+                            this.setParentFormHasErrors(false);
+                        }}
+                        mode="dialog"
+                    >
+                        {this.props.options.map((option) => {
+                            return (
+                                <Picker.Item label={option["label"]} value={option["value"]} key={option["label"]} />
+                            );
+                        })}
+                    </Picker>
+                </View>
+                
             );
         }
         else if(this.props.type === "file"){
