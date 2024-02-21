@@ -239,7 +239,7 @@ class Input extends React.Component {
     }
 
     submitParentForm = () => {
-        console.log("Submitting parent form.");
+        //console.log("Submitting parent form.");
         if(this.props.parentFormRef) {
             this.props.parentFormRef.onSubmit();
         }
@@ -1282,14 +1282,14 @@ class Input extends React.Component {
                                     this.props.onEdit(val);
                                 }   
 
-                                console.log("Phone number: ", val);
-                                console.log("Country code: ", this.phone.getCountryCode());
+                                //console.log("Phone number: ", val);
+                                //console.log("Country code: ", this.phone.getCountryCode());
                     
                                 // Validate the phone number
                                 const isValid = this.phone.isValidNumber();
                                 const isEmpty = val === this.phone.getCountryCode() || val === "";
                     
-                                console.log("isValid: ", isValid);
+                                //console.log("isValid: ", isValid);
 
                                 this.setState({
                                     hasError: !isValid,

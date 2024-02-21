@@ -39,7 +39,7 @@ class Form extends React.Component {
         });
 
         if (formError) {
-            console.log("Form has errors.");
+            console.error("Form has errors.");
             Alert.alert("Form Invalid", "Please fix the errors in the form before submitting. Fields with errors are highlighted in red and required fields are highlighted in yellow.");
             return;
         }
@@ -77,7 +77,7 @@ class Form extends React.Component {
                                         this.onSubmit();
                                     }
                                     : () => {
-                                        console.log("No submit function provided.");
+                                        console.error("No submit function provided.");
                                     }
                             }
                         >
@@ -106,7 +106,7 @@ class Form extends React.Component {
                                         this.onSubmit();
                                     }
                                     : () => {
-                                        console.log("No submit function provided.");
+                                        console.error("No submit function provided.");
                                     }
                             }
                         >
@@ -136,7 +136,7 @@ class Form extends React.Component {
                                         this.onSubmit();
                                     }
                                     : () => {
-                                        console.log("No submit function provided.");
+                                        console.error("No submit function provided.");
                                     }
                             }
                         >
@@ -173,7 +173,7 @@ class Form extends React.Component {
                                         this.onSubmit();
                                     }
                                     : () => {
-                                        console.log("No submit function provided.");
+                                        console.error("No submit function provided.");
                                     }
                             }
                         >
