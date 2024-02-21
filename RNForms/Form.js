@@ -5,7 +5,8 @@ import {
     TouchableOpacity,
     Text,
     Alert,
-    View
+    View,
+    RefreshControl
  } from "react-native";
 
 /*
@@ -20,6 +21,7 @@ class Form extends React.Component {
 
     state = {
         formHasErrors: {},
+        refreshing: false
     }
 
 
@@ -46,7 +48,16 @@ class Form extends React.Component {
         this.props.onSubmit();
 
     }
-    
+
+    onRefresh = async () => {
+        this.setState({ refreshing: true });
+
+        if(this.props.onRefresh){
+            await this.props.onRefresh();
+        }
+
+        this.setState({ refreshing: false });
+    }
 
     render() {
         const childrenWithRef = React.Children.map(this.props.children, (child) => {
@@ -111,7 +122,11 @@ class Form extends React.Component {
         else{
             if (this.props.submitBtnLocation === "bottom") {
                 return (
-                    <ScrollView style={this.props.styles ? this.props.styles : {}}>
+                    <ScrollView style={this.props.styles ? this.props.styles : {}}
+                        refreshControl={
+                            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+                        }
+                    >
                         {childrenWithRef}
                         <TouchableOpacity
                             style={this.props.submitBtnStyle ? this.props.submitBtnStyle : {}}
@@ -134,14 +149,22 @@ class Form extends React.Component {
             } 
             else if(this.props.submitBtnLocation === "none") {
                 return (
-                    <ScrollView style={this.props.styles ? this.props.styles : {}}>
+                    <ScrollView style={this.props.styles ? this.props.styles : {}}
+                        refreshControl={
+                            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+                        }
+                    >
                         {childrenWithRef}
                     </ScrollView>
                 );
             }
             else {
                 return (
-                    <ScrollView style={this.props.styles ? this.props.styles : {}}>
+                    <ScrollView style={this.props.styles ? this.props.styles : {}}
+                        refreshControl={
+                            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+                        }
+                    >
                         <TouchableOpacity
                             style={this.props.submitBtnStyle ? this.props.submitBtnStyle : {}}
                             onPress={

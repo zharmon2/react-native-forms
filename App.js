@@ -39,7 +39,7 @@ const defaultInputs = {
   "5": 604951200000,
   "6": 1633219080000,
   "7": true,
-  "8": "+1 123-456-7890",
+  "8": "12706543210",
   "9": 2,
   "10": "Medium",
   "11": "",
@@ -52,6 +52,7 @@ const defaultInputs = {
 function App() {
 
   const [values, setValues] = useState(defaultInputs);
+  const [key, setKey] = useState(0);
 
   return (    
     <Form
@@ -64,6 +65,17 @@ function App() {
       submitBtnStyle={{backgroundColor: "#2196F3", padding: 10, margin: 10, borderRadius: 5, width: "50%", alignSelf: "center"}}
       submitBtnTextStyle={{color: "white", textAlign: "center"}}
       submitBtnLocation="bottom"
+
+      onRefresh={() => {
+        // Unmount and remount the form.
+        console.log("Refreshing form.");
+
+        setValues(defaultInputs);
+        setKey(key + 1);
+
+      }}
+
+      key={key}
     >
 
       <Text style={{textAlign: "center", fontSize: 20, fontWeight: "bold", margin: 10}}>Reservation Form</Text>
@@ -75,7 +87,7 @@ function App() {
         type="text" 
         placeholder="Enter..." 
         required={true} 
-        maxLength={15} 
+        maxLength={5} 
 
         label="First Name"
         labelStyles={{color: "black", flex: 1, textAlign: "center"}}

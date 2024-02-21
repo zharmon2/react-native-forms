@@ -358,12 +358,14 @@ class Input extends React.Component {
                     placeholder={this.props.placeholder?this.props.placeholder:""}
                     onChangeText={(val)=>{
 
+                        let error = false;
+
                         let required = this.props.required ? this.props.required : false;
 
                         if(required && val === "") {
                             this.setState({hasRequiredError: true});
                             this.setParentFormHasErrors(true);
-                            return;
+                            error = true;
                         }
 
                         let maxLength = this.props.maxLength ? this.props.maxLength : Infinity;
@@ -371,12 +373,14 @@ class Input extends React.Component {
                         if(val.length > maxLength) {
                             this.setState({hasError: true});
                             this.setParentFormHasErrors(true);
-                            return;
+                            error = true;
                         }
 
-                        this.setState({hasError: false, hasRequiredError: false});
+                        if(!error) {
 
-                        this.setParentFormHasErrors(false);
+                            this.setState({hasError: false, hasRequiredError: false});
+                            this.setParentFormHasErrors(false);
+                        }
 
                         this.props.onEdit?this.props.onEdit(val):null;
                     }}
@@ -407,16 +411,19 @@ class Input extends React.Component {
                     placeholder={this.props.placeholder?this.props.placeholder:""}
                     onChangeText={(val)=>{
 
+                        let error = false;
                         let required = this.props.required ? this.props.required : false;
 
                         if(required && val === "") {
                             this.setState({hasRequiredError: true});
                             this.setParentFormHasErrors(true);
-                            return;
+                            error = true;
                         }
 
-                        this.setState({hasError: false, hasRequiredError: false});
-                        this.setParentFormHasErrors(false);
+                        if(!error) {
+                            this.setState({hasError: false, hasRequiredError: false});
+                            this.setParentFormHasErrors(false);
+                        }
 
                         this.props.onEdit?this.props.onEdit(val):null;
                     }}
@@ -448,22 +455,25 @@ class Input extends React.Component {
                     placeholder={this.props.placeholder?this.props.placeholder:""}
                     onChangeText={(val)=>{
 
+                        let error = false;
                         let required = this.props.required ? this.props.required : false;
 
                         if(required && val === "") {
                             this.setState({hasRequiredError: true});
                             this.setParentFormHasErrors(true);
-                            return;
+                            error = true;
                         }
 
                         if(!val.includes("@") || !val.includes(".")) {
                             this.setState({hasError: true});
                             this.setParentFormHasErrors(true);
-                            return;
+                           error = true;
                         }
 
-                        this.setState({hasError: false, hasRequiredError: false});
-                        this.setParentFormHasErrors(false);
+                        if(!error) {
+                            this.setState({hasError: false, hasRequiredError: false});
+                            this.setParentFormHasErrors(false);
+                        }
 
                         this.props.onEdit?this.props.onEdit(val):null;
                     }}
@@ -495,12 +505,14 @@ class Input extends React.Component {
                     placeholder={this.props.placeholder?this.props.placeholder:""}
                     onChangeText={(val)=>{
 
+                        let error = false;
+
                         let required = this.props.required ? this.props.required : false;
 
                         if(required && val === "") {
                             this.setState({hasRequiredError: true});
                             this.setParentFormHasErrors(true);
-                            return;
+                            error = true;
                         }
 
                         let maxLength = this.props.maxLength ? this.props.maxLength : Infinity;
@@ -508,11 +520,13 @@ class Input extends React.Component {
                         if(val.length > maxLength) {
                             this.setState({hasError: true});
                             this.setParentFormHasErrors(true);
-                            return;
+                            error = true;
                         }
 
-                        this.setState({hasError: false, hasRequiredError: false});
-                        this.setParentFormHasErrors(false);
+                        if(!error) {
+                            this.setState({hasError: false, hasRequiredError: false});
+                            this.setParentFormHasErrors(false);
+                        }   
 
                         this.props.onEdit?this.props.onEdit(val):null;
                     }}
@@ -546,10 +560,12 @@ class Input extends React.Component {
 
                         let required = this.props.required ? this.props.required : false;
 
+                        let error = false;
+
                         if(required && val === "") {
                             this.setState({hasRequiredError: true});
                             this.setParentFormHasErrors(true);
-                            return;
+                            error = true;
                         }
 
                         val = parseFloat(val);
@@ -559,7 +575,7 @@ class Input extends React.Component {
                         if(val % step !== 0) {
                             this.setState({hasError: true});
                             this.setParentFormHasErrors(true);
-                            return;
+                            error = true;
                         }
 
                         let min = this.props.min ? this.props.min : -Infinity;
@@ -568,15 +584,16 @@ class Input extends React.Component {
                         if(val < min || val > max) {
                             this.setState({hasError: true});
                             this.setParentFormHasErrors(true);
-                            return;
+                            error = true;
                         }
 
-                        this.setState({hasError: false, hasRequiredError: false});
-                        this.setParentFormHasErrors(false);
-
-                        if(!this.state.hasError) {
-                            this.props.onEdit?this.props.onEdit(val):null;
+                        if(!error) {
+                            this.setState({hasError: false, hasRequiredError: false});
+                            this.setParentFormHasErrors(false);
                         }
+
+                        this.props.onEdit?this.props.onEdit(val):null;
+            
                     }}
                     keyboardType="numeric"
                     value={this.props.value?this.props.value.toString():""}
@@ -1248,16 +1265,13 @@ class Input extends React.Component {
                     initialCountry="us"
                     initialValue={this.state.phoneNumber?this.state.phoneNumber:""}
                     ref={ref => {this.phone = ref}}
-                    autoFormat={true}
-                    value={this.state.phoneNumber?this.state.phoneNumber:""}
+                    autoFormat={false}
                     onChangePhoneNumber={(val)=>{
 
                         if (this.phone.getCountryCode() == null) {
                             val = this.state.phoneNumber;
                             this.phone.setValue(val);
                         }
-
-                        console.log(val);
                     
                         // Update state only when necessary
                         if (val !== this.state.phoneNumber) {
@@ -1265,12 +1279,17 @@ class Input extends React.Component {
                                 // Call props.onEdit if it exists
                                 if (this.props.onEdit) {
                                     this.props.onEdit(val);
-                                }
+                                }   
+
+                                console.log("Phone number: ", val);
+                                console.log("Country code: ", this.phone.getCountryCode());
                     
                                 // Validate the phone number
                                 const isValid = this.phone.isValidNumber();
                                 const isEmpty = val === this.phone.getCountryCode() || val === "";
                     
+                                console.log("isValid: ", isValid);
+
                                 this.setState({
                                     hasError: !isValid,
                                     hasRequiredError: this.props.required && isEmpty,
