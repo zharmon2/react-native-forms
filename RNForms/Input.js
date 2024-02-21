@@ -31,10 +31,11 @@ class Input extends React.Component {
 
     state = {
         hasError: false,
-        hasRequiredError: this.props.required ? this.props.required : false,
-        placeholder: this.props.placeholder?this.props.placeholder:"",
-        checkboxChecked: this.props.checked?this.props.checked:false,
-        radioSelection: -1,
+        hasRequiredError: this.props.required && !this.props.value ? this.props.required : false,
+        placeholder: this.props.value?this.props.value:this.props.placeholder?this.props.placeholder:"",
+        checkboxChecked: this.props.value?this.props.value:this.props.checked?this.props.checked:false,
+        radioSelection: this.props.value?this.props.value:-1,
+        selectedValue: this.props.value?this.props.value:this.props.options?this.props.options[0]:"",
         listOptions: [],
         listValues: {},
         isRecording: false,
@@ -44,7 +45,7 @@ class Input extends React.Component {
         isPlaying: false,
         recordPath: '',
         audioRecorderPlayer: this.props.type === "audio"?new AudioRecorderPlayer():null,
-        phoneNumber: "+1",
+        phoneNumber: this.props.value?this.props.value:"",
         disabled: this.props.disabled?this.props.disabled:false,
     }
 
@@ -379,6 +380,7 @@ class Input extends React.Component {
 
                         this.props.onEdit?this.props.onEdit(val):null;
                     }}
+                    value={this.props.value?this.props.value:""}
                 />
             );
         }
@@ -419,6 +421,7 @@ class Input extends React.Component {
                         this.props.onEdit?this.props.onEdit(val):null;
                     }}
                     secureTextEntry={true}
+                    value={this.props.value?this.props.value:""}
                 />
             );
         }
@@ -465,6 +468,7 @@ class Input extends React.Component {
                         this.props.onEdit?this.props.onEdit(val):null;
                     }}
                     keyboardType="email-address"
+                    value={this.props.value?this.props.value:""}
                 />
             );
         }
@@ -513,6 +517,7 @@ class Input extends React.Component {
                         this.props.onEdit?this.props.onEdit(val):null;
                     }}
                     multiline={true}
+                    value={this.props.value?this.props.value:""}
                 />
             );
         }
@@ -574,6 +579,7 @@ class Input extends React.Component {
                         }
                     }}
                     keyboardType="numeric"
+                    value={this.props.value?this.props.value.toString():""}
                 />
             );
         }
@@ -603,23 +609,23 @@ class Input extends React.Component {
                         this.setState({ isOpen: true });
                     }}
                 >
-                    <Text>{this.state.placeholder?this.state.placeholder:this.props.placeholder?this.props.placeholder:""}</Text>
+                    <Text>{this.state.placeholder?dateOrUnixToString(this.state.placeholder, true):this.props.placeholder?dateOrUnixToString(this.props.placeholder, true):""}</Text>
                     {this.state.isOpen && (
                         <DatePicker
                             modal
                             open={this.state.isOpen}
-                            date={new Date()}
+                            date={this.props.value?new Date(this.props.value):new Date()}
                             mode="datetime"
                             onConfirm={(date) => {
                                     this.setState({ isOpen: false });
                                     this.props.onEdit?this.props.onEdit(date):null;
 
-                                    let dateStr = date.toString();
+                                    let dateStr = dateOrUnixToString(date, true);
 
                                     this.props.placeholder?this.setState({placeholder: dateStr}):null;
 
                                     this.setParentFormHasErrors(false);
-                                    this.setState({hasError: false, hasRequiredError: false});
+                                    this.setState({hasError: false, hasRequiredError: false, value: null});
                                 }
                             }
                             onCancel={() => {
@@ -655,26 +661,22 @@ class Input extends React.Component {
                         this.setState({ isOpen: true });
                     }}
                 >
-                    <Text>{this.state.placeholder?this.state.placeholder:this.props.placeholder?this.props.placeholder:""}</Text>
+                    <Text>{this.state.placeholder?dateOrUnixToString(this.state.placeholder, false):this.props.placeholder?dateOrUnixToString(this.props.placeholder, false):""}</Text>
                     {this.state.isOpen && (
                         <DatePicker
                             modal
                             open={this.state.isOpen}
-                            date={new Date()}
+                            date={this.props.value?new Date(this.props.value):new Date()}
                             mode="date"
                             onConfirm={(date) => {
                                     this.setState({ isOpen: false });
                                     this.props.onEdit?this.props.onEdit(date):null;
 
-                                    let dateStr = date.toString();
-
-                                    //remove the time from the date string
-                                    dateStr = dateStr.split(" ");
-                                    dateStr = dateStr[0] + " " + dateStr[1] + " " + dateStr[2] + " " + dateStr[3];
+                                    let dateStr = dateOrUnixToString(date, false);
 
                                     this.props.placeholder?this.setState({placeholder: dateStr}):null;
 
-                                    this.setState({hasError: false, hasRequiredError: false});
+                                    this.setState({hasError: false, hasRequiredError: false, value: dateStr});
                                     this.setParentFormHasErrors(false);
                                 }
                             }
@@ -1244,7 +1246,7 @@ class Input extends React.Component {
             return (
                 <PhoneInput
                     initialCountry="us"
-                    initialValue="1"
+                    initialValue={this.state.phoneNumber?this.state.phoneNumber:""}
                     ref={ref => {this.phone = ref}}
                     autoFormat={true}
                     value={this.state.phoneNumber?this.state.phoneNumber:""}
@@ -1342,5 +1344,23 @@ const checkAndRequestMicrophonePermission = async () => {
       console.log('Microphone permission already granted');
     }
   };
+
+const dateOrUnixToString = (dateOrUnix, hasTime) => {
+    //Format: MM/DD/YYYY HH:MM:SS AM/PM
+
+    if (typeof dateOrUnix === 'number') {
+        dateOrUnix = new Date(dateOrUnix);
+    }
+    
+    let string = dateOrUnix.toLocaleString();
+
+    if(!hasTime) {
+        string = string.split(" ")[0];
+        string = string.replace(",", "")
+    }
+
+    
+    return string;
+  }
 
 export default Input;

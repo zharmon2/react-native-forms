@@ -30,9 +30,28 @@ import Form from "./RNForms/Form";
 import Input from "./RNForms/Input";
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
+const defaultInputs = {
+  "0": "John",
+  "1": "Doe",
+  "2": "john_doe@fake_email.com",
+  "3": "password",
+  "4": 4,
+  "5": 604951200000,
+  "6": 1633219080000,
+  "7": true,
+  "8": "+1 123-456-7890",
+  "9": 2,
+  "10": "Medium",
+  "11": "",
+  "12": "",
+  "13": "",
+  "14": "",
+  "15": "No additional notes.",
+}
+
 function App() {
 
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState(defaultInputs);
 
   return (    
     <Form
@@ -66,6 +85,7 @@ function App() {
 
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
         onEdit={(value) => {setValues({...values, 0: value})}}
+        value={values[0]}
       />
 
       <Input id={1} type="text" placeholder="Enter..." 
@@ -79,6 +99,7 @@ function App() {
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
         onEdit={(value) => {setValues({...values, 1: value})}}
         required={true}
+        value={values[1]}
       />
 
       <Input 
@@ -95,6 +116,7 @@ function App() {
 
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
         onEdit={(value) => {setValues({...values, 2: value})}}
+        value={values[2]}
       />
 
       <Input
@@ -111,6 +133,7 @@ function App() {
 
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
         onEdit={(value) => {setValues({...values, 3: value})}}
+        value={values[3]}
       />
 
       <Input
@@ -130,6 +153,7 @@ function App() {
 
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
         onEdit={(value) => {setValues({...values, 4: value})}}
+        value={values[4]}
       />
 
       <Input
@@ -142,10 +166,11 @@ function App() {
         labelStyles={{color: "black", flex: 1, textAlign: "center"}}
         labelPosition="left"
 
+        value={values[5]}
         containerStyles={{alignItems: "center", justifyContent: "center"}}
 
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
-        onEdit={(value) => {setValues({...values, 5: value})}}
+        onEdit={(value) => {setValues({...values, 5: value.getTime()})}}
       />
 
       <Input
@@ -153,7 +178,7 @@ function App() {
         type="datetime"
         placeholder="Select..."
         required={true}
-
+        value={values[6]}
         label="Reservation Date and Time"
         labelStyles={{color: "black", flex: 1, textAlign: "center"}}
         labelPosition="left"
@@ -161,7 +186,7 @@ function App() {
         containerStyles={{alignItems: "center", justifyContent: "center"}}
 
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
-        onEdit={(value) => {setValues({...values, 6: value})}}
+        onEdit={(value) => {setValues({...values, 6: value.getTime()})}}
       />
 
       <Text style={{textAlign: "center", fontSize: 15, fontWeight: "bold", margin: 10, marginTop:20}}>Reminders Sign Up</Text>
@@ -181,6 +206,7 @@ function App() {
         inputStyles={{height: 30, width:30, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
         iconSize={20}
         onEdit={(value) => {setValues({...values, 7: value})}}
+        value={values[7]}
       />
 
       <Input
@@ -201,6 +227,7 @@ function App() {
 
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
         onEdit={(value) => {setValues({...values, 8: value})}}
+        value={values[8]}
       />
 
       <Text style={{textAlign: "center", fontSize: 15, fontWeight: "bold", margin: 10, marginTop:20}}>Reservation Details</Text>
@@ -221,6 +248,7 @@ function App() {
         containerStyles={{alignItems: "center", justifyContent: "center"}}
         pickerStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white", height: 30}}
         required={false}
+        value = {values[9]}
       />
 
       <Input
@@ -237,6 +265,7 @@ function App() {
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white", gap: 5}}
         radioOptionStyles={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderWidth: 0}}
         radioSize={20}
+        value = {values[10]}
       />
 
       <Input
@@ -306,6 +335,7 @@ function App() {
         labelPosition="none"
         onEdit={(value) => {setValues({...values, 15: value})}}
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white", maxHeight: 200}}
+        value={values[15]}
       />
       
     </Form>
