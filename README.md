@@ -49,7 +49,8 @@ The `<Input />` element is the main abstraction for an input field on a form. Th
 | phone | A phone number |
 | text | A text input |
 | textarea | A multiline text input |
-| select | A dropdown select list |
+| select | A modal select list |
+| dropdown | A dropdown select list |
 | audio | An audio recorder |
 | image | An image picker |
 | video | A video picker |
@@ -88,6 +89,9 @@ The `<Input />` element is the main abstraction for an input field on a form. Th
 | recordingTextLayoutStyles | The styles for the container for text on audio inputs | object |
 | recordingTextStyles | The styles for the text on audio inputs | object |
 | inputTextStyles | The text style for inputs on the phone input | object |
+| dropdownStyles | The style for the dropdown box input | object |
+| dropdownItemStyles | The style for the items in the drowpdown input | object |
+| dropdownTextStyles | The style for the text of a dropdown input | object | 
 
 ## Example
 
@@ -103,7 +107,7 @@ const defaultInputs = {
   "5": 604951200000,
   "6": 1633219080000,
   "7": true,
-  "8": "+1 123-456-7890",
+  "8": "12706543210",
   "9": 2,
   "10": "Medium",
   "11": "",
@@ -111,11 +115,30 @@ const defaultInputs = {
   "13": "",
   "14": "",
   "15": "No additional notes.",
+  "16": 2
 }
 
 function App() {
 
   const [values, setValues] = useState(defaultInputs);
+  const [key, setKey] = useState(0);
+  
+
+  const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width);
+
+  useEffect(() => {
+      const handleOrientationChange = () => {
+          setDeviceWidth(Dimensions.get('window').width);
+      };
+  
+      // Store the subscription object in a variable
+      const subscription = Dimensions.addEventListener('change', handleOrientationChange);
+  
+      return () => {
+          // Use the remove method on the subscription object to remove the event listener
+          subscription.remove();
+      };
+  }, []);    
 
   return (    
     <Form
@@ -128,6 +151,17 @@ function App() {
       submitBtnStyle={{backgroundColor: "#2196F3", padding: 10, margin: 10, borderRadius: 5, width: "50%", alignSelf: "center"}}
       submitBtnTextStyle={{color: "white", textAlign: "center"}}
       submitBtnLocation="bottom"
+
+      onRefresh={() => {
+        // Unmount and remount the form.
+        console.log("Refreshing form.");
+
+        setValues(defaultInputs);
+        setKey(key + 1);
+
+      }}
+
+      key={key}
     >
 
       <Text style={{textAlign: "center", fontSize: 20, fontWeight: "bold", margin: 10}}>Reservation Form</Text>
@@ -400,6 +434,28 @@ function App() {
         onEdit={(value) => {setValues({...values, 15: value})}}
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white", maxHeight: 200}}
         value={values[15]}
+      />
+
+      <Input
+        id={16}
+        type="dropdown"
+        placeholder="Select..."
+        label="What state is the restaurant located in?"
+        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelPosition="left"
+        required={true}
+        options={[
+          {key: 1, value: "Kentucky"}, 
+          {key: 2, value: "Tennessee"}, 
+          {key: 3, value: "Indiana"},
+        ]}
+        onEdit={(value) => {
+          setValues({...values, 16: value})
+        }}
+        inputStyles={{width:(deviceWidth/2-10), borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
+        dropdownStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
+        dropdownTextStyles={{flex:1, color: "black"}}
+        value={values[16]}
       />
       
     </Form>

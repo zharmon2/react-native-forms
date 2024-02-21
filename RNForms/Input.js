@@ -21,6 +21,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import PhoneInput from 'react-native-phone-input'
+import { SelectList } from 'react-native-dropdown-select-list'
 
 /*
     This is an Input component that will conditionally render an input based on the type prop.
@@ -1328,6 +1329,60 @@ class Input extends React.Component {
                             height: 50,
                             color: 'black',
                         }
+                    }
+                />
+            );
+        }
+        else if(this.props.type === "dropdown"){
+            return(
+                <SelectList 
+                    data={this.props.options?this.props.options:[]}
+                    setSelected={(val)=>{
+                        this.props.onEdit?this.props.onEdit(val):null;
+                        this.setState({hasError: false, hasRequiredError: false});
+                        this.setParentFormHasErrors(false);
+                    }}
+                    placeholder={this.props.value?this.props.value:this.props.placeholder?this.props.placeholder:""}
+                    save="key"
+                    defaultOption={this.props.value?this.props.options.find((option) => option.key === this.props.value):null}
+                    boxStyles={
+                        this.state.hasError ?
+                        {
+                            ...this.props.inputStyles,
+                            borderColor: "red",
+                            borderStyle: "solid",
+                            borderWidth: 1
+                        } :
+                        this.state.hasRequiredError ?
+                        {
+                            ...this.props.inputStyles,
+                            borderColor: "yellow",
+                            borderStyle: "solid",
+                            borderWidth: 1
+                        } :
+                        this.props.inputStyles?
+                        this.props.inputStyles:
+                        {}
+                    }
+                    dropdownItemStyles={
+                        this.props.dropdownItemStyles?
+                        this.props.dropdownItemStyles:
+                        {}
+                    }
+                    dropdownStyles={
+                        this.props.dropdownStyles?
+                        this.props.dropdownStyles:
+                        {}
+                    }
+                    dropdownTextStyles={
+                        this.props.dropdownTextStyles?
+                        this.props.dropdownTextStyles:
+                        {}
+                    }
+                    inputStyles={
+                        this.props.dropdownTextStyles?
+                        this.props.dropdownTextStyles:
+                        {}
                     }
                 />
             );

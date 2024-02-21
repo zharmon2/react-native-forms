@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 
 import {
   Alert,
@@ -16,6 +16,7 @@ import {
   Text,
   useColorScheme,
   View,
+  Dimensions,
 } from 'react-native';
 
 import {
@@ -47,12 +48,30 @@ const defaultInputs = {
   "13": "",
   "14": "",
   "15": "No additional notes.",
+  "16": 2
 }
 
 function App() {
 
   const [values, setValues] = useState(defaultInputs);
   const [key, setKey] = useState(0);
+  
+
+  const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width);
+
+  useEffect(() => {
+      const handleOrientationChange = () => {
+          setDeviceWidth(Dimensions.get('window').width);
+      };
+  
+      // Store the subscription object in a variable
+      const subscription = Dimensions.addEventListener('change', handleOrientationChange);
+  
+      return () => {
+          // Use the remove method on the subscription object to remove the event listener
+          subscription.remove();
+      };
+  }, []);    
 
   return (    
     <Form
@@ -87,7 +106,7 @@ function App() {
         type="text" 
         placeholder="Enter..." 
         required={true} 
-        maxLength={5} 
+        maxLength={15} 
 
         label="First Name"
         labelStyles={{color: "black", flex: 1, textAlign: "center"}}
@@ -348,6 +367,28 @@ function App() {
         onEdit={(value) => {setValues({...values, 15: value})}}
         inputStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white", maxHeight: 200}}
         value={values[15]}
+      />
+
+      <Input
+        id={16}
+        type="dropdown"
+        placeholder="Select..."
+        label="What state is the restaurant located in?"
+        labelStyles={{color: "black", flex: 1, textAlign: "center"}}
+        labelPosition="left"
+        required={true}
+        options={[
+          {key: 1, value: "Kentucky"}, 
+          {key: 2, value: "Tennessee"}, 
+          {key: 3, value: "Indiana"},
+        ]}
+        onEdit={(value) => {
+          setValues({...values, 16: value})
+        }}
+        inputStyles={{width:(deviceWidth/2-10), borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
+        dropdownStyles={{flex:1, borderColor: "black", borderWidth: 1, borderRadius: 5, padding: 5, margin: 5, backgroundColor: "white"}}
+        dropdownTextStyles={{flex:1, color: "black"}}
+        value={values[16]}
       />
       
     </Form>
