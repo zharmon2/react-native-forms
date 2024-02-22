@@ -47,7 +47,7 @@ The `<Form />` element is the main container for this project. A form can contai
 
 ### Input
 
-The `<Input />` element is the main abstraction for an input field on a form. There are 15 different types of inputs, each with their own behaviors and special props. Some props have multiple uses depending on the input type. See the full example [below](#large-example) or in the `example` folder to see how some of these props work.
+The `<Input />` element is the main abstraction for an input field on a form. There are 16 different input types, each with their own behaviors and special props. Some props have multiple uses depending on the input type. See the full example [below](#large-example) or in the `example` folder to see how some of these props work.
 
 #### Inputs
 | type | description |
