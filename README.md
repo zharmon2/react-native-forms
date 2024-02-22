@@ -1,9 +1,22 @@
 # React Native Forms
 
-A form builder for react-native with 15 different types of inputs. It was desined to be relatively modular to allow for dynamic form rendering.
+A form builder for react-native with 16 different input types. It was designed  to be relatively modular to make dynamic form rendering simpler to code as well as abstracting the form's validation. Below is the example code running on an Android emulator.
 
-### Dependencies
+<img src="./example/example.gif" alt="Example Code Running on Android Device" height="700">
+
+## Table of Contents
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+  - [Form](#form)
+  - [Input](#input)
+- Examples
+  - [Basic Usage](#basic-usage)
+  - [Simple Example](#simple-example)
+  - [Large Example](#large-example)
+
+## Dependencies
 The following is a list of dependencies that must be installed before React Native Forms will work. Each item in the list links to the project's repository.
+Yes, this is a lot of dependencies, but this package is meant to be a wrapper that simplifies the coding experience for a form with these inputs.
 
 - [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
 - [react-native-date-picker](https://github.com/henninghall/react-native-date-picker)
@@ -19,7 +32,7 @@ The following is a list of dependencies that must be installed before React Nati
 ## Usage
 
 ### Form
-The `<Form />` element is the main container for this project. A form can contain any children since it is just an abstraction of a scrollview with a button and the input validation functionality.
+The `<Form />` element is the main container for this project. A form can contain any children since it is just an abstraction of a scrollview/view with a button and the input validation functionality.
 
 #### Props
 | Prop | Description | Type | Default |
@@ -34,7 +47,7 @@ The `<Form />` element is the main container for this project. A form can contai
 
 ### Input
 
-The `<Input />` element is the main abstraction for an input field on a form. There are 15 different types of inputs, each with their own behaviors and special props.
+The `<Input />` element is the main abstraction for an input field on a form. There are 15 different types of inputs, each with their own behaviors and special props. Some props have multiple uses depending on the input type. See the full example [below](#large-example) or in the `example` folder to see how some of these props work.
 
 #### Inputs
 | type | description |
@@ -94,9 +107,76 @@ The `<Input />` element is the main abstraction for an input field on a form. Th
 | dropdownItemStyles | The style for the items in the drowpdown input | object |
 | dropdownTextStyles | The style for the text of a dropdown input | object | 
 
-## Example
+## Basic Usage
 
-Here is an example that uses each input type, some styles and props, requires some fields, and has a dependent question. It also has a Form title and section headers.
+```
+import Form, Input from 'react-native-forms'
+
+render(){
+  return(
+    <Form>
+      <Input type="text" />
+    </Form>
+  )
+}
+
+```
+
+## Simple Example
+
+```
+<Form
+  onSubmit={() => {
+    console.log(values);
+    Alert.alert("Form Submitted", "Form has been submitted.");
+  }}
+
+  submitBtnLocation="bottom"
+>
+  <Text>Example Form Title</Text>
+
+  <Input 
+    id={0}
+    type="text" 
+    placeholder="Username" 
+    required={true} 
+
+    labelPosition="none"
+
+    onEdit={(value) => {console.log(value)}}
+  />
+
+  <Input 
+    id={1}
+    type="password" 
+    placeholder="Password" 
+    required={true} 
+
+    labelPosition="none"
+
+    onEdit={(value) => {console.log(value)}}
+  />
+
+  <Input
+    id={2}
+    type="checkbox"
+    required={false}
+
+    label="Remember Me"
+    labelPosition="left"
+
+    onEdit={(value) => {console.log(value)}}
+
+    value={true}
+  />
+
+</Form>
+
+```
+
+## Large Example
+
+Here is a large example that uses each input type, some styles and props, requires some fields, and has a dependent question. It also has a Form title and section headers. This example can be found in full in the `examples` folder.
 
 ```
 const defaultInputs = {
@@ -296,7 +376,7 @@ function App() {
         placeholder="Select..."
         required={false}
 
-        label="Would you like to recieve text reminders?"
+        label="Would you like to receive text reminders?"
         labelStyles={{color: "black", flex: 1, textAlign: "center"}}
         labelPosition="left"
 
