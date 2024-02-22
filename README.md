@@ -47,7 +47,7 @@ The `<Form />` element is the main container for this project. A form can contai
 
 ### Input
 
-The `<Input />` element is the main abstraction for an input field on a form. There are 16 different input types, each with their own behaviors and special props. Some props have multiple uses depending on the input type. See the full example [below](#large-example) or in the `example` folder to see how some of these props work.
+The `<Input />` element is the main abstraction for an input field on a form. There are 16 different input types, each with their own behaviors and special props. Some props have multiple uses depending on the input type. See the full example [below](#large-example) or in the `example` folder to see how some of these props work. An input field is given a `yellow` border if the input is marked as required and contains no value and a `red` border if the input's value does not meet the validation requirements (Ex: a number input with a value of 2.3 when the step is set to 1). 
 
 #### Inputs
 | type | description |
