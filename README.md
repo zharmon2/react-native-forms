@@ -1,4 +1,4 @@
-# React Native Forms
+# React Native Simple Forms
 
 A form builder for react-native with 16 different input types. It was designed  to be relatively modular to make dynamic form rendering simpler to code as well as abstracting the form's validation. Below is the example code running on an Android emulator.
 
