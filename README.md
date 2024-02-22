@@ -5,7 +5,8 @@ A form builder for react-native with 16 different input types. It was designed  
 <img src="./example/example.gif" alt="Example Code Running on Android Device" height="700">
 
 ## Table of Contents
-- [Dependencies](#dependencies)
+- [Installation](#installation)
+- [Dependencies](#peer-dependencies)
 - [Usage](#usage)
   - [Form](#form)
   - [Input](#input)
@@ -14,7 +15,15 @@ A form builder for react-native with 16 different input types. It was designed  
   - [Simple Example](#simple-example)
   - [Large Example](#large-example)
 
-## Dependencies
+## Installation 
+Run the following command to install the package:
+```
+npm install react-native-simple-forms
+```
+
+Then, ensure you install and setup each of the [peer dependencies](#peer-dependencies) below.
+
+## Peer Dependencies
 The following is a list of dependencies that must be installed before React Native Forms will work. Each item in the list links to the project's repository.
 Yes, this is a lot of dependencies, but this package is meant to be a wrapper that simplifies the coding experience for a form with these inputs.
 
@@ -111,7 +120,7 @@ The `<Input />` element is the main abstraction for an input field on a form. Th
 ## Basic Usage
 
 ```
-import Form, Input from 'react-native-forms'
+import {Form, Input} from 'react-native-simple-forms';
 
 render(){
   return(
