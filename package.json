@@ -1,6 +1,6 @@
 {
-  "name": "react-native-forms",
-  "version": "1.0.0",
+  "name": "react-native-simple-forms",
+  "version": "1.0.1",
   "description": "Wrapper components for creating forms in React Native.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zharmon2/react-native-forms.git"
+    "url": "git+https://github.com/zharmon2/react-native-simple-forms.git"
   },
   "keywords": [
     "Forms",
@@ -18,9 +18,9 @@
   "author": "Zach Harmon",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/zharmon2/react-native-forms/issues"
+    "url": "https://github.com/zharmon2/react-native-simple-forms/issues"
   },
-  "homepage": "https://github.com/zharmon2/react-native-forms#readme",
+  "homepage": "https://github.com/zharmon2/react-native-simple-forms#readme",
   "peerDependencies": {
     "react-native": ">=0.69.9",
     "react-native-audio-recorder-player": "^3.6.6",
