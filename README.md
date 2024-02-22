@@ -38,6 +38,7 @@ The `<Form />` element is the main container for this project. A form can contai
 | Prop | Description | Type | Default |
 |-------|-------------|-----|-------|
 | onSubmit | A function that handles the form's submit action after validation. | function | none |
+| onRefresh | A function that is called when a scrollable form is pulled down/refreshed. | function | none |
 | scrollable | Whether the form should be a scrollable view or not. | bool | true |
 | submitBtnLocation | The location of the submit button (top, bottom, or none) | string | top |
 | submitBtnStyle | The style of the submit button. | object | |
