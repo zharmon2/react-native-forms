@@ -59,10 +59,24 @@ class Form extends React.Component {
         this.setState({ refreshing: false });
     }
 
-    render() {
-        const childrenWithRef = React.Children.map(this.props.children, (child) => {
-            return React.cloneElement(child, { parentFormRef: this });
+    addParentFormRefToChildren(children) {
+        return React.Children.map(children, child => {
+          if (!React.isValidElement(child)) {
+            return child; // If it's not a valid React element (e.g., a text node), just return it
+          }
+    
+          // Check if the child has its own children and recursively process them
+          const childChildren = child.props.children
+            ? this.addParentFormRefToChildren(child.props.children)
+            : child.props.children;
+    
+          // Clone the child element with the parentFormRef prop, and also pass down any nested children
+          return React.cloneElement(child, { parentFormRef: this }, childChildren);
         });
+      }
+
+    render() {
+        const childrenWithRef = this.addParentFormRefToChildren(this.props.children);
 
         if(this.props.scrollable === false) {
             if (this.props.submitBtnLocation === "bottom") {

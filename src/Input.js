@@ -572,7 +572,7 @@ class Input extends React.Component {
 
                         val = parseFloat(val);
 
-                        let step = this.props.step ? this.props.step : 1;
+                        let step = this.props.step ? this.props.step : 0;
 
                         if(val % step !== 0) {
                             this.setState({hasError: true});
@@ -822,7 +822,9 @@ class Input extends React.Component {
                                 }}
 
                             >
-                                <Text>{option}</Text>
+                                <Text
+                                    style={{fontSize: this.props.radioSize?this.props.radioSize-4:30, color: "black"}}
+                                >{option}</Text>
                                 <View
                                 
                                     style={
