@@ -933,6 +933,8 @@ class Input extends React.Component {
                                 // );
                                 this.props.onEdit?this.props.onEdit(res.uri):null;
                                 this.setState({placeholder: res.name});
+                                this.setParentFormHasErrors(false);
+                                this.setState({hasError: false, hasRequiredError: false});
                             }
                             else{
                                 let uris = [];
