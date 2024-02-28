@@ -258,7 +258,11 @@ class Input extends React.Component {
     onStartRecord = async () => {
         let fileName = this.props.fileName?this.props.fileName:"audio-"+this.props.id+".m4a";
 
-        const path = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+        var path = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+
+        if(Platform.OS === "ios"){
+            path = "file://" + path
+        }
 
         const result = await this.state.audioRecorderPlayer.startRecorder(path);
         this.state.audioRecorderPlayer.addRecordBackListener((e) => {
@@ -309,7 +313,10 @@ class Input extends React.Component {
     deleteRecording = async () => {
         await this.onStopPlay();
         await this.onStopRecord();
-        await RNFS.unlink(this.state.recordPath);
+        let dirExists = await RNFS.exists(this.state.recordPath);
+        if(dirExists){
+            await RNFS.unlink(this.state.recordPath);
+        }
         this.setState({recordPath: ''});
     }
 
