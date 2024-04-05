@@ -78,6 +78,7 @@ The `<Input />` element is the main abstraction for an input field on a form. Th
 | audio | An audio recorder |
 | image | An image picker |
 | video | A video picker |
+| signature | A signature input |
 
 #### Props
 | prop | description | type |
@@ -116,6 +117,8 @@ The `<Input />` element is the main abstraction for an input field on a form. Th
 | dropdownStyles | The style for the dropdown box input | object |
 | dropdownItemStyles | The style for the items in the drowpdown input | object |
 | dropdownTextStyles | The style for the text of a dropdown input | object | 
+| sigStyles | The webview styles for a signature | css string |
+| sigContainStyles | The styles for the signature element | object |
 
 ## Basic Usage
 
