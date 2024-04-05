@@ -22,6 +22,7 @@ import RNFS from 'react-native-fs';
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import PhoneInput from 'react-native-phone-input'
 import { SelectList } from 'react-native-dropdown-select-list'
+import SignatureScreen from "react-native-signature-canvas";
 
 /*
     This is an Input component that will conditionally render an input based on the type prop.
@@ -340,6 +341,26 @@ class Input extends React.Component {
             this.setState({hasError: false, hasRequiredError: false});
             this.setParentFormHasErrors(false);
         }
+    }
+
+    sigOk(signature){
+        console.log(signature);
+        this.props.onEdit?this.props.onEdit(signature):null;
+        this.setState({hasError: false, hasRequiredError: false});
+        this.setParentFormHasErrors(false);
+    }
+
+    clearSig(){
+        this.signature.clearSignature();
+        this.props.onEdit?this.props.onEdit(""):null;
+        if(this.props.required) {
+            this.setState({hasRequiredError: true});
+            this.setParentFormHasErrors(true);
+        }
+    }
+
+    handleSig(){
+        this.signature.readSignature();
     }
 
     getInput() {
@@ -1412,6 +1433,53 @@ class Input extends React.Component {
                         {}
                     }
                 />
+            );
+        }
+        else if(this.props.type === "signature"){
+            return (
+                <View style={
+                    this.state.hasError ? 
+                    {
+                        ...this.props.inputStyles,
+                        borderColor: "red",
+                        borderStyle: "solid",
+                        borderWidth: 1
+                    } :
+                    this.state.hasRequiredError ?
+                    {
+                        ...this.props.inputStyles,
+                        borderColor: "yellow",
+                        borderStyle: "solid",
+                        borderWidth: 1
+                    } :
+                    this.props.inputStyles
+                }>
+                    <SignatureScreen ref={
+                                            sig => this.signature = sig
+                                        } 
+                    onOK={
+                        (signature) => {
+                            this.sigOk(signature);
+                        }
+                    } 
+                    onBegin={() => {this.props.setScrollEnabled(false)}}
+                    onEnd={() => {this.props.setScrollEnabled(true)}}
+                    webStyle={this.props.sigStyles?this.props.sigStyles:""} 
+                    imageType="image/png"
+                    style={this.props.sigContainStyles?this.props.sigContainStyles:{}}
+                    />
+                    <View style={{
+                        display: "flex",
+                        flexDirection: "row",
+                    }}>
+                        <TouchableOpacity onPress={() => this.clearSig()} style={{backgroundColor: "red", padding: 10, margin: 10}}>
+                            <Text style={{color: "white"}}>Clear</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => this.handleSig()} style={{backgroundColor: "green", padding: 10, margin: 10}}>
+                            <Text style={{color: "white"}}>Save</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             );
         }
     }

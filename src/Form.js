@@ -21,7 +21,8 @@ class Form extends React.Component {
 
     state = {
         formHasErrors: {},
-        refreshing: false
+        refreshing: false,
+        scrollEnabled: true
     }
 
 
@@ -71,9 +72,13 @@ class Form extends React.Component {
             : child.props.children;
     
           // Clone the child element with the parentFormRef prop, and also pass down any nested children
-          return React.cloneElement(child, { parentFormRef: this }, childChildren);
+          return React.cloneElement(child, { parentFormRef: this, setScrollEnabled: this.setScrollEnabled }, childChildren);
         });
       }
+
+    setScrollEnabled = (scrollEnabled) => {
+        this.setState({scrollEnabled: scrollEnabled});
+    }
 
     render() {
         const childrenWithRef = this.addParentFormRefToChildren(this.props.children);
@@ -140,6 +145,7 @@ class Form extends React.Component {
                         refreshControl={
                             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
                         }
+                        scrollEnabled={this.state.scrollEnabled}
                     >
                         {childrenWithRef}
                         <TouchableOpacity
@@ -167,6 +173,7 @@ class Form extends React.Component {
                         refreshControl={
                             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
                         }
+                        scrollEnabled={this.state.scrollEnabled}
                     >
                         {childrenWithRef}
                     </ScrollView>
@@ -178,6 +185,7 @@ class Form extends React.Component {
                         refreshControl={
                             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
                         }
+                        scrollEnabled={this.state.scrollEnabled}
                     >
                         <TouchableOpacity
                             style={this.props.submitBtnStyle ? this.props.submitBtnStyle : {}}
