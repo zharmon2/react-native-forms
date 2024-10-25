@@ -1076,6 +1076,7 @@ class Input extends React.Component {
                                             this.setState({hasError: false, hasRequiredError: false});
                                         }
                                     }
+                                    this.actionSheetRef?.hide();
                                 });
                             }}
                         >
@@ -1125,6 +1126,7 @@ class Input extends React.Component {
                                         this.setParentFormHasErrors(false);
                                         this.setState({hasError: false, hasRequiredError: false});
                                     }
+                                    this.actionSheetRef?.hide();
                                 });
                             }}
                         >
@@ -1163,45 +1165,129 @@ class Input extends React.Component {
                         this.props.inputStyles
                     }
                     onPress={() => {
-                        launchImageLibrary({
-                            mediaType: 'video',
-                            selectionLimit: this.props.allowMultiSelection?20:1,
-                            includeBase64: true,
-                            maxHeight: this.props.maxHeight?this.props.maxHeight:500,
-                            maxWidth: this.props.maxWidth?this.props.maxWidth:500,
-                        }, (res) => {
-                            if(res.didCancel) {
-                                var required = this.props.required ? this.props.required : false;
-                                if(required && this.state.placeholder === this.props.placeholder) {
-                                    this.setState({hasRequiredError: true});
-                                    this.setParentFormHasErrors(true);
-                                }
-                            }
-                            else if(res.error) {
-                                console.log(res.error);
-                            }
-                            else {
-                                if(this.props.allowMultiSelection) {
-                                    let uris = [];
-                                    res.assets.forEach((file) => {
-                                        uris.push(file.uri);
-                                    });
-                                    this.props.onEdit?this.props.onEdit(uris):null;
-                                    this.setState({placeholder: `${uris.length} file${uris.length==1?"":"s"} selected.`});
-                                    this.setParentFormHasErrors(false);
-                                    this.setState({hasError: false, hasRequiredError: false});
-                                }
-                                else {
-                                    this.props.onEdit?this.props.onEdit(res.assets[0].uri):null;
-                                    this.setState({placeholder: res.assets[0].fileName});
-                                    this.setParentFormHasErrors(false);
-                                    this.setState({hasError: false, hasRequiredError: false});
-                                }
-                            }
-                        });
+                        this.actionSheetRef?.show();
                     }}
                 >
-                    <Text>{this.state.placeholder?this.state.placeholder:this.props.placeholder?this.props.placeholder:""}</Text>
+                <ActionSheet 
+                        ref={ref => this.actionSheetRef = ref} 
+                        containerStyle={{
+                            display: "flex",
+                            flexDirection: "column",
+                            paddingVertical: 20,
+                        }}
+                    >
+                        <TouchableOpacity
+                            style={
+                                {
+                                    backgroundColor: "#2196F3",
+                                    color: "white",
+                                    marginHorizontal: 40,
+                                    padding: 10,
+                                    borderRadius: 10,
+                                    display: this.state.imageType === "both" || this.state.imageType === "library" ? "flex" : "none"
+                                }
+                            }
+                            onPress={() => {
+                                launchImageLibrary({
+                                    mediaType: 'video',
+                                    selectionLimit: this.props.allowMultiSelection?20:1,
+                                    includeBase64: true,
+                                    maxHeight: this.props.maxHeight?this.props.maxHeight:500,
+                                    maxWidth: this.props.maxWidth?this.props.maxWidth:500,
+                                }, (res) => {
+                                    if(res.didCancel) {
+                                        var required = this.props.required ? this.props.required : false;
+                                        if(required && this.state.placeholder === this.props.placeholder) {
+                                            this.setState({hasRequiredError: true});
+                                            this.setParentFormHasErrors(true);
+                                        }
+                                    }
+                                    else if(res.error) {
+                                        console.log(res.error);
+                                    }
+                                    else {
+                                        if(this.props.allowMultiSelection) {
+                                            let uris = [];
+                                            res.assets.forEach((file) => {
+                                                uris.push(file.uri);
+                                            });
+                                            this.props.onEdit?this.props.onEdit(uris):null;
+                                            this.setState({placeholder: `${uris.length} file${uris.length==1?"":"s"} selected.`});
+                                            this.setParentFormHasErrors(false);
+                                            this.setState({hasError: false, hasRequiredError: false});
+                                        }
+                                        else {
+                                            this.props.onEdit?this.props.onEdit(res.assets[0].uri):null;
+                                            this.setState({placeholder: res.assets[0].fileName});
+                                            this.setParentFormHasErrors(false);
+                                            this.setState({hasError: false, hasRequiredError: false});
+                                        }
+                                        this.actionSheetRef?.hide();
+                                    }
+                                });
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color: "white",
+                                    textAlign: "center"
+                                }}
+                            >Choose a Video</Text>
+                        </TouchableOpacity>
+
+                        {
+                            this.state.imageType === "both" && <View style={{height: 10}}></View>
+                        }
+
+                        <TouchableOpacity
+                            style={
+                                {
+                                    backgroundColor: "#2196F3",
+                                    color: "white",
+                                    marginHorizontal: 40,
+                                    padding: 10,
+                                    borderRadius: 10,
+                                    display: this.state.imageType === "both" || this.state.imageType === "camera" ? "flex" : "none"
+                                }
+                            }
+                            onPress={() => {
+                                launchCamera({
+                                    mediaType: 'video',
+                                    includeBase64: true,
+                                    maxHeight: this.props.maxHeight?this.props.maxHeight:500,
+                                    maxWidth: this.props.maxWidth?this.props.maxWidth:500,
+                                }, (res) => {
+                                    if(res.didCancel) {
+                                        var required = this.props.required ? this.props.required : false;
+                                        if(required && this.state.placeholder === this.props.placeholder) {
+                                            this.setState({hasRequiredError: true});
+                                            this.setParentFormHasErrors(true);
+                                        }
+                                    }
+                                    else if(res.error) {
+                                        console.log(res.error);
+                                    }
+                                    else {
+                                        this.props.onEdit?this.props.onEdit(res.assets[0].uri):null;
+                                        this.setState({placeholder: res.assets[0].fileName});
+                                        this.setParentFormHasErrors(false);
+                                        this.setState({hasError: false, hasRequiredError: false});
+                                    }
+                                    this.actionSheetRef?.hide();
+                                });
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color: "white",
+                                    textAlign: "center"
+                                }}
+                            >Take a Video</Text>
+                        </TouchableOpacity>
+                    </ActionSheet>
+
+                    <Text>{this.state.placeholder?this.state.placeholder:this.props.placeholder?this.props.placeholder:"Select Video"}</Text>
+
                 </TouchableOpacity>
             );
         }
