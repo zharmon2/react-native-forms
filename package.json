@@ -34,7 +34,9 @@
     "react-native-signature-canvas": "^4.7.2",
     "react-native-vector-icons": "^10.0.3",
     "@react-native-picker/picker": "^2.6.1",
-    "react-native-webview": "^13.8.4"
+    "react-native-webview": "^13.8.4",
+    "react-native-actions-sheet": "^0.9.7",
+    "react-native-gesture-handler": "^2.20.2"
   },
   "files": ["index.js", "src/"]
 }

@@ -23,6 +23,8 @@ import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import PhoneInput from 'react-native-phone-input'
 import { SelectList } from 'react-native-dropdown-select-list'
 import SignatureScreen from "react-native-signature-canvas";
+import ActionSheet from "react-native-actions-sheet";
+import { act } from "react";
 
 /*
     This is an Input component that will conditionally render an input based on the type prop.
@@ -49,6 +51,7 @@ class Input extends React.Component {
         audioRecorderPlayer: this.props.type === "audio"?new AudioRecorderPlayer():null,
         phoneNumber: this.props.value?this.props.value:"",
         disabled: this.props.disabled?this.props.disabled:false,
+        imageType: this.props.imageType?this.props.imageType:"both",
     }
 
     render() {
@@ -1013,45 +1016,129 @@ class Input extends React.Component {
                         this.props.inputStyles
                     }
                     onPress={() => {
-                        launchImageLibrary({
-                            mediaType: 'photo',
-                            selectionLimit: this.props.allowMultiSelection?20:1,
-                            includeBase64: true,
-                            maxHeight: this.props.maxHeight?this.props.maxHeight:500,
-                            maxWidth: this.props.maxWidth?this.props.maxWidth:500,
-                        }, (res) => {
-                            if(res.didCancel) {
-                                var required = this.props.required ? this.props.required : false;
-                                if(required && this.state.placeholder === this.props.placeholder) {
-                                    this.setState({hasRequiredError: true});
-                                    this.setParentFormHasErrors(true);
-                                }
-                            }
-                            else if(res.error) {
-                                console.log(res.error);
-                            }
-                            else {
-                                if(this.props.allowMultiSelection) {
-                                    let uris = [];
-                                    res.assets.forEach((file) => {
-                                        uris.push(file.uri);
-                                    });
-                                    this.props.onEdit?this.props.onEdit(uris):null;
-                                    this.setState({placeholder: `${uris.length} file${uris.length==1?"":"s"} selected.`});
-                                    this.setParentFormHasErrors(false);
-                                    this.setState({hasError: false, hasRequiredError: false});
-                                }
-                                else {
-                                    this.props.onEdit?this.props.onEdit(res.assets[0].uri):null;
-                                    this.setState({placeholder: res.assets[0].fileName});
-                                    this.setParentFormHasErrors(false);
-                                    this.setState({hasError: false, hasRequiredError: false});
-                                }
-                            }
-                        });
+                        this.actionSheetRef?.show();
                     }}
                 >
-                    <Text>{this.state.placeholder?this.state.placeholder:this.props.placeholder?this.props.placeholder:""}</Text>
+                    {/* <Text>{this.state.placeholder?this.state.placeholder:this.props.placeholder?this.props.placeholder:""}</Text> */}
+                    
+                    <ActionSheet 
+                        ref={ref => this.actionSheetRef = ref} 
+                        containerStyle={{
+                            display: "flex",
+                            flexDirection: "column",
+                            paddingVertical: 20,
+                        }}
+                    >
+                        <TouchableOpacity
+                            style={
+                                {
+                                    backgroundColor: "#2196F3",
+                                    color: "white",
+                                    marginHorizontal: 40,
+                                    padding: 10,
+                                    borderRadius: 10,
+                                    display: this.state.imageType === "both" || this.state.imageType === "library" ? "flex" : "none"
+                                }
+                            }
+                            onPress={() => {
+                                launchImageLibrary({
+                                    mediaType: 'photo',
+                                    selectionLimit: this.props.allowMultiSelection?20:1,
+                                    includeBase64: true,
+                                    maxHeight: this.props.maxHeight?this.props.maxHeight:500,
+                                    maxWidth: this.props.maxWidth?this.props.maxWidth:500,
+                                }, (res) => {
+                                    if(res.didCancel) {
+                                        var required = this.props.required ? this.props.required : false;
+                                        if(required && this.state.placeholder === this.props.placeholder) {
+                                            this.setState({hasRequiredError: true});
+                                            this.setParentFormHasErrors(true);
+                                        }
+                                    }
+                                    else if(res.error) {
+                                        console.log(res.error);
+                                    }
+                                    else {
+                                        if(this.props.allowMultiSelection) {
+                                            let uris = [];
+                                            res.assets.forEach((file) => {
+                                                uris.push(file.uri);
+                                            });
+                                            this.props.onEdit?this.props.onEdit(uris):null;
+                                            this.setState({placeholder: `${uris.length} file${uris.length==1?"":"s"} selected.`});
+                                            this.setParentFormHasErrors(false);
+                                            this.setState({hasError: false, hasRequiredError: false});
+                                        }
+                                        else {
+                                            this.props.onEdit?this.props.onEdit(res.assets[0].uri):null;
+                                            this.setState({placeholder: res.assets[0].fileName});
+                                            this.setParentFormHasErrors(false);
+                                            this.setState({hasError: false, hasRequiredError: false});
+                                        }
+                                    }
+                                });
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color: "white",
+                                    textAlign: "center"
+                                }}
+                            >Choose an Image</Text>
+                        </TouchableOpacity>
+
+                        {
+                            this.state.imageType === "both" && <View style={{height: 10}}></View>
+                        }
+
+                        <TouchableOpacity
+                            style={
+                                {
+                                    backgroundColor: "#2196F3",
+                                    color: "white",
+                                    marginHorizontal: 40,
+                                    padding: 10,
+                                    borderRadius: 10,
+                                    display: this.state.imageType === "both" || this.state.imageType === "camera" ? "flex" : "none"
+                                }
+                            }
+                            onPress={() => {
+                                launchCamera({
+                                    mediaType: 'photo',
+                                    includeBase64: true,
+                                    maxHeight: this.props.maxHeight?this.props.maxHeight:500,
+                                    maxWidth: this.props.maxWidth?this.props.maxWidth:500,
+                                }, (res) => {
+                                    if(res.didCancel) {
+                                        var required = this.props.required ? this.props.required : false;
+                                        if(required && this.state.placeholder === this.props.placeholder) {
+                                            this.setState({hasRequiredError: true});
+                                            this.setParentFormHasErrors(true);
+                                        }
+                                    }
+                                    else if(res.error) {
+                                        console.log(res.error);
+                                    }
+                                    else {
+                                        this.props.onEdit?this.props.onEdit(res.assets[0].uri):null;
+                                        this.setState({placeholder: res.assets[0].fileName});
+                                        this.setParentFormHasErrors(false);
+                                        this.setState({hasError: false, hasRequiredError: false});
+                                    }
+                                });
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color: "white",
+                                    textAlign: "center"
+                                }}
+                            >Take an Image</Text>
+                        </TouchableOpacity>
+                    </ActionSheet>
+
+                    <Text>{this.state.placeholder?this.state.placeholder:this.props.placeholder?this.props.placeholder:"Select Image"}</Text>
+
                 </TouchableOpacity>
             );
         }
